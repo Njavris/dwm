@@ -171,12 +171,28 @@ $(foreach target, $(TARGETS), $(call define_target, $(target)))
 
 # Flash the program
 flash: default
-	@echo Flashing: $(OUTPUT_DIRECTORY)/dwm_nrf52832.hex
-	nrfjprog -f nrf52 --program $(OUTPUT_DIRECTORY)/dwm_nrf52832.hex --sectorerase
-	nrfjprog -f nrf52 --reset
+#	@echo Flashing: $(OUTPUT_DIRECTORY)/dwm_nrf52832.hex
+#	nrfjprog -f nrf52 --program $(OUTPUT_DIRECTORY)/dwm_nrf52832.hex --sectorerase
+#	nrfjprog -f nrf52 --reset
+#
+	../code/src/openocd -s ../code/tcl \
+		-f interface/stlink-v2.cfg \
+		-f target/nrf52.cfg \
+		-c "init; \
+			halt; \
+			nrf5 mass_erase; \
+			program bin/dwm_nrf52832.hex verify reset; \
+			exit"
 
 erase:
-	nrfjprog -f nrf52 --eraseall
+#	nrfjprog -f nrf52 --eraseall
+	../code/src/openocd -s ../code/tcl \
+		-f interface/stlink-v2.cfg \
+		-f target/nrf52.cfg \
+		-c "init; \
+			halt; \
+			nrf5 mass_erase; \
+			exit"
 
 SDK_CONFIG_FILE := ./config/sdk_config.h
 CMSIS_CONFIG_TOOL := $(SDK_ROOT)/external_tools/cmsisconfig/CMSIS_Configuration_Wizard.jar
