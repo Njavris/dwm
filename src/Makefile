@@ -1,12 +1,12 @@
 PROJECT_NAME     := uwb
-TARGETS          := nrf52832_xxaa
+TARGETS          := dwm_nrf52832
 OUTPUT_DIRECTORY := bin
 
 SDK_ROOT := ../nRF5_SDK_17.1.0_ddde560/
 PROJ_DIR := .
 GNU_INSTALL_ROOT := /usr/bin/
 
-$(OUTPUT_DIRECTORY)/nrf52832_xxaa.out: \
+$(OUTPUT_DIRECTORY)/dwm_nrf52832.out: \
   LINKER_SCRIPT  := uwb_nrf52.ld
 
 # Source files common to all targets
@@ -138,10 +138,10 @@ LDFLAGS += -Wl,--gc-sections
 # use newlib in nano version
 LDFLAGS += --specs=nano.specs
 
-nrf52832_xxaa: CFLAGS += -D__HEAP_SIZE=8192
-nrf52832_xxaa: CFLAGS += -D__STACK_SIZE=8192
-nrf52832_xxaa: ASMFLAGS += -D__HEAP_SIZE=8192
-nrf52832_xxaa: ASMFLAGS += -D__STACK_SIZE=8192
+dwm_nrf52832: CFLAGS += -D__HEAP_SIZE=8192
+dwm_nrf52832: CFLAGS += -D__STACK_SIZE=8192
+dwm_nrf52832: ASMFLAGS += -D__HEAP_SIZE=8192
+dwm_nrf52832: ASMFLAGS += -D__STACK_SIZE=8192
 
 # Add standard libraries at the very end of the linker input, after all objects
 # that may need symbols provided by these libraries.
@@ -151,7 +151,7 @@ LIB_FILES += -lc -lnosys -lm
 .PHONY: default help
 
 # Default target - first one defined
-default: nrf52832_xxaa
+default: dwm_nrf52832
 
 # Print all targets that can be built
 help:
@@ -171,8 +171,8 @@ $(foreach target, $(TARGETS), $(call define_target, $(target)))
 
 # Flash the program
 flash: default
-	@echo Flashing: $(OUTPUT_DIRECTORY)/nrf52832_xxaa.hex
-	nrfjprog -f nrf52 --program $(OUTPUT_DIRECTORY)/nrf52832_xxaa.hex --sectorerase
+	@echo Flashing: $(OUTPUT_DIRECTORY)/dwm_nrf52832.hex
+	nrfjprog -f nrf52 --program $(OUTPUT_DIRECTORY)/dwm_nrf52832.hex --sectorerase
 	nrfjprog -f nrf52 --reset
 
 erase:
