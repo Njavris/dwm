@@ -1,10 +1,6 @@
-#include <stdio.h>
 #include <nrf_gpio.h>
 #include <nrf_delay.h>
-#include <nrf_uart.h>
-
 #include "dwm1001.h"
-
 
 static void leds_blink(void) {
 	int i;
@@ -25,17 +21,12 @@ static void gpio_init(void) {
 		nrf_gpio_cfg_output(leds[i]);
 	for (i = 0; i < sizeof(btns)/sizeof(uint32_t); i++)
 		nrf_gpio_cfg_input(btns[i], NRF_GPIO_PIN_NOPULL); // Pull up resistor is on board
-	nrf_gpio_cfg_output(DW_RST);
 }
 
-void uart_init(void) {
-}
-
-int main(void) {
+int main(void)
+{
 	gpio_init();
-	uart_init();
 
-	printf("Hello!\n");
 	while (true) {
 		if (!nrf_gpio_pin_read(BT_WAKE))
 			leds_blink();
