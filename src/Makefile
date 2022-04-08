@@ -16,13 +16,19 @@ SRC_FILES += \
   $(SDK_ROOT)/modules/nrfx/mdk/gcc_startup_nrf52.S \
   $(SDK_ROOT)/components/libraries/util/app_error.c \
   $(SDK_ROOT)/components/libraries/util/app_error_weak.c \
-  $(SDK_ROOT)/components/libraries/uart/app_uart.c \
+  $(SDK_ROOT)/components/libraries/fifo/app_fifo.c \
+  $(SDK_ROOT)/components/libraries/uart/app_uart_fifo.c \
   $(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_uarte.c \
   $(SDK_ROOT)/integration/nrfx/legacy/nrf_drv_uart.c \
   $(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_uart.c \
   $(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_uarte.c \
   $(SDK_ROOT)/modules/nrfx/drivers/src/prs/nrfx_prs.c \
   $(SDK_ROOT)/components/libraries/util/app_util_platform.c \
+  $(SDK_ROOT)/external/fprintf/nrf_fprintf_format.c \
+  $(SDK_ROOT)/components/libraries/uart/retarget.c \
+  $(SDK_ROOT)/integration/nrfx/legacy/nrf_drv_spi.c \
+  $(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_spi.c \
+
 
 # Include folders common to all targets
 INC_FOLDERS += \
@@ -44,8 +50,7 @@ INC_FOLDERS += \
   $(SDK_ROOT)/integration/nrfx/legacy \
   $(SDK_ROOT)/modules/nrfx/hal \
   $(SDK_ROOT)/modules/nrfx/drivers/include \
-
-
+  $(SDK_ROOT)/components/libraries/fifo \
 
 
 # Libraries common to all targets
@@ -138,7 +143,7 @@ flash: default
 #	nrfjprog -f nrf52 --reset
 #
 	../code/src/openocd -s ../code/tcl \
-		-f interface/stlink-v2.cfg \
+		-f interface/stlink.cfg \
 		-f target/nrf52.cfg \
 		-c "init; \
 			halt; \
@@ -149,7 +154,7 @@ flash: default
 erase:
 #	nrfjprog -f nrf52 --eraseall
 	../code/src/openocd -s ../code/tcl \
-		-f interface/stlink-v2.cfg \
+		-f interface/stlink.cfg \
 		-f target/nrf52.cfg \
 		-c "init; \
 			halt; \

@@ -57,10 +57,10 @@ RSTn		P0.24
 
 #define BTNS	{ BT_WAKE }
 
-#define DWM_UART_TX		11
-#define DWM_UART_RX		5
+#define DWM_UART_TX		5
+#define DWM_UART_RX		11
 
-#define DW_RST		24
+#define DW_NRST		24
 #define DW_SPI_CLK	16
 #define DW_SPI_CS	17
 #define DW_SPI_MISO	18
