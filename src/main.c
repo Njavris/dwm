@@ -4,10 +4,12 @@
 #include <nrf_delay.h>
 #include <nrf.h>
 
-#include "uart.h"
+#include "log.h"
 #include "spi.h"
 #include "gpio.h"
 #include "dwm1001.h"
+
+enum log_level curr_log_level = LOG_LEVEL_MAX;
 
 static void dw_reset(uint32_t reset) {
 	if (reset) {
@@ -25,13 +27,11 @@ int main(void) {
 	spi_init();
 	dw_reset(0);
 
-	printf("\nHello!\n");
-
 	uint8_t cmd = 0;
 	uint8_t id[4];
 	memset(id, 0, sizeof(id));
 	nrf_drv_spi_transfer(&spi_dev, &cmd, 1, id, 4);
-	printf("DEV_ID=%08x\n", *((unsigned *)id));
+	LOG_DBG("DEV_ID=%08x\n", *((unsigned *)id));
 
 	while (true) {
 		if (nrf_gpio_pin_read(BT_WAKE))
