@@ -10,6 +10,7 @@ $(OUTPUT_DIRECTORY)/dwm_nrf52832.out: \
   LINKER_SCRIPT  := uwb_nrf52.ld
 
 # Source files common to all targets
+SRC_FILES += $(wildcard $(PROJ_DIR/deca_driver/*.c))
 SRC_FILES += $(wildcard $(PROJ_DIR)/*.c)
 SRC_FILES += $(SDK_ROOT)/modules/nrfx/mdk/system_nrf52.c
 SRC_FILES += $(SDK_ROOT)/modules/nrfx/mdk/gcc_startup_nrf52.S
@@ -25,10 +26,10 @@ SRC_FILES += $(SDK_ROOT)/components/libraries/util/app_util_platform.c
 SRC_FILES += $(SDK_ROOT)/integration/nrfx/legacy/nrf_drv_spi.c
 SRC_FILES += $(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_spi.c
 
-
 # Include folders common to all targets
-INC_FOLDERS += ./config
+INC_FOLDERS += $(PROJ_DIR)/deca_driver
 INC_FOLDERS += $(PROJ_DIR)
+INC_FOLDERS += ./config
 INC_FOLDERS += $(SDK_ROOT)/modules/nrfx/hal
 INC_FOLDERS += $(SDK_ROOT)/modules/nrfx
 INC_FOLDERS += $(SDK_ROOT)/integration/nrfx

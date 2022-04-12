@@ -5,7 +5,7 @@
 const nrf_drv_spi_t spi_dev = NRF_DRV_SPI_INSTANCE(0);
 
 void spi_set_freq(int freq_kh) {
-	LOG_DBG("%s: setting frequency %dkHz\n", __func__, freq_kh);
+	LOG_INFO("%s: setting frequency %dkHz\n", __func__, freq_kh);
 	if (freq_kh < 250) {
 		NRF_SPI0->FREQUENCY = SPI_FREQUENCY_FREQUENCY_K125;
 		LOG_DBG("%s: frequency: 125kHz\n", __func__);

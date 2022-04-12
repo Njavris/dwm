@@ -2,10 +2,7 @@
 #define __LOG_H__
 
 #include "uart.h"
-
-#define DEFAULT_LOG_LEVEL	
-
-extern enum log_level curr_log_level;
+#include <stdint.h>
 
 enum log_level {
 	LOG_LEVEL_ERR,
@@ -15,38 +12,19 @@ enum log_level {
 	LOG_LEVEL_MAX
 };
 
-#define LOG_DBG(fmt, ...)	{ \
-		while (1) { \
-			if (curr_log_level >= LOG_LEVEL_DBG) \
-				printf("DBG: " fmt, ##__VA_ARGS__); \
-			break; \
-		}; \
-	};
+#define DEFAULT_LOG_LEVEL	LOG_LEVEL_INFO	
+extern enum log_level curr_log_level;
+#define LOG_LEVEL_CURR		curr_log_level
 
+#define LOG(LVL, fmt, ...)						\
+		do {							\
+			if (LOG_LEVEL_CURR >= LOG_LEVEL_##LVL)		\
+				printf(#LVL ": " fmt, ##__VA_ARGS__);	\
+		} while(0)
 
-#define LOG_INFO(fmt, ...)	{ \
-		while (1) { \
-			if (curr_log_level >= LOG_LEVEL_INFO) \
-				printf("INFO: " fmt, ##__VA_ARGS__); \
-			break; \
-		}; \
-	};
-
-
-#define LOG_WARN(fmt, ...)	{ \
-		while (1) { \
-			if (curr_log_level >= LOG_LEVEL_WARN) \
-				printf("WARN: " fmt, ##__VA_ARGS__); \
-			break; \
-		}; \
-	};
-
-#define LOG_ERR(fmt, ...)	{ \
-		while (1) { \
-			if (curr_log_level >= LOG_LEVEL_ERR) \
-				printf("ERROR: " fmt, ##__VA_ARGS__); \
-			break; \
-		}; \
-	};
+#define LOG_DBG(fmt, ...)	LOG(DBG, fmt, ##__VA_ARGS__)
+#define LOG_INFO(fmt, ...)	LOG(INFO, fmt, ##__VA_ARGS__) 
+#define LOG_WARN(fmt, ...)	LOG(WARN, fmt, ##__VA_ARGS__)
+#define LOG_ERR(fmt, ...)	LOG(ERR, fmt, ##__VA_ARGS__.)
 
 #endif
